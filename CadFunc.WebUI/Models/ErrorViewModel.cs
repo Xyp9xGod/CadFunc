@@ -1,5 +1,3 @@
-using System;
-
 namespace CadFunc.WebUI.Models
 {
     public class ErrorViewModel

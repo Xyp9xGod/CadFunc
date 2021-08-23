@@ -1,9 +1,9 @@
 ﻿using CadFunc.Application.DTOs;
 using CadFunc.Application.Interfaces;
+using CadFunc.Infra.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CadFunc.WebUI.Controllers
@@ -11,9 +11,11 @@ namespace CadFunc.WebUI.Controllers
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeesController(IEmployeeService employeeService)
+        private readonly IConfiguration _configuration;
+        public EmployeesController(IEmployeeService employeeService, IConfiguration configuration)
         {
             _employeeService = employeeService;
+            _configuration = configuration;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -33,6 +35,7 @@ namespace CadFunc.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
                 await _employeeService.Add(employeeDto);
                 return RedirectToAction(nameof(Index));
             }
@@ -45,9 +48,7 @@ namespace CadFunc.WebUI.Controllers
             var employeeDto = await _employeeService.GetById(id);
 
             if (employeeDto == null) return NotFound();
-
-            var employees = await _employeeService.GetEmployees();
-            //ViewBag.CategoryId = new SelectList(categories, "Id", "Name", produtoDto.CategoryId);
+            employeeDto.Password = Password.DecryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
 
             return View(employeeDto);
         }
@@ -83,7 +84,14 @@ namespace CadFunc.WebUI.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            await _employeeService.Remove(id);
+            try
+            {
+                await _employeeService.Remove(id);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Problems to delete de employee. "+ex.Message);
+            }
             return RedirectToAction(nameof(Index));
         }
 

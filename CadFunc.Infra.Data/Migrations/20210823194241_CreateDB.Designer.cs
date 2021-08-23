@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CadFunc.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210821175843_Inicial")]
-    partial class Inicial
+    [Migration("20210823194241_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,7 @@ namespace CadFunc.Infra.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Badge")
+                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -46,6 +47,11 @@ namespace CadFunc.Infra.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
@@ -58,7 +64,8 @@ namespace CadFunc.Infra.Data.Migrations
                             Email = "email1@zup.com.br",
                             LastName = "Employee Last Name",
                             Name = "Employee Name 1",
-                            Password = "password"
+                            Password = "V02zy9YLAaJxk3au/LqxGw==",
+                            Phone = "47999998888"
                         },
                         new
                         {
@@ -67,7 +74,8 @@ namespace CadFunc.Infra.Data.Migrations
                             Email = "email2@zup.com.br",
                             LastName = "Employee Last Name",
                             Name = "Employee Name 2",
-                            Password = "password"
+                            Password = "V02zy9YLAaJxk3au/LqxGw==",
+                            Phone = "47977778888"
                         },
                         new
                         {
@@ -76,7 +84,8 @@ namespace CadFunc.Infra.Data.Migrations
                             Email = "email3@zup.com.br",
                             LastName = "Employee Last Name",
                             Name = "Employee Name 3",
-                            Password = "password"
+                            Password = "V02zy9YLAaJxk3au/LqxGw==",
+                            Phone = "47966668888"
                         });
                 });
 #pragma warning restore 612, 618

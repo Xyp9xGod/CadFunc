@@ -24,7 +24,7 @@
             </div>
             <label asp-for="Email" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" aria-describedby="emailHelp" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <label asp-for="Badge" class="col-md-2 control-label"></label>
@@ -34,8 +34,13 @@
             </div>
             <label asp-for="Password" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Password" class="form-control" />
+                <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <label asp-for="Phone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
         </div>
 

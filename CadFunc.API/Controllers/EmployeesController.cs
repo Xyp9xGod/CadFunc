@@ -1,11 +1,12 @@
-﻿using CadFunc.Application.DTOs;
+﻿using Microsoft.Extensions.Configuration;
+using CadFunc.Application.DTOs;
 using CadFunc.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using CadFunc.Infra.Data;
 
 namespace CadFunc.API.Controllers
 {
@@ -14,13 +15,17 @@ namespace CadFunc.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private IEmployeeService _employeeService;
-
-        public EmployeesController(IEmployeeService employeeService)
+        private readonly IConfiguration _configuration;
+        public EmployeesController(IEmployeeService employeeService, IConfiguration configuration)
         {
             _employeeService = employeeService;
+            _configuration = configuration;
         }
 
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<EmployeeDTO>>> Get()
         {
             var employees = await _employeeService.GetEmployees();
@@ -32,8 +37,15 @@ namespace CadFunc.API.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetEmployee")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<EmployeeDTO>> Get(int id)
         {
+            if (id < 0)
+                return BadRequest("Invalid Id");
+
             var employee = await _employeeService.GetById(id);
             if (employee == null)
             {
@@ -43,17 +55,25 @@ namespace CadFunc.API.Controllers
         }
 
         [HttpPost]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Post([FromBody] EmployeeDTO employeeDto)
         {
             if(employeeDto == null)
                 return BadRequest("Invalid Data");
 
+            employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
             await _employeeService.Add(employeeDto);
 
             return new CreatedAtRouteResult("GetEmployee", new { id = employeeDto.Id }, employeeDto);
         }
 
         [HttpPut]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(int id, [FromBody] EmployeeDTO employeeDto)
         {
             if (employeeDto == null)
@@ -68,13 +88,21 @@ namespace CadFunc.API.Controllers
                 return NotFound("Employee Not Found");
             }
 
+            employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
             await _employeeService.Update(employeeDto);
             return Ok(employeeDto);
         }
 
         [HttpDelete("{id:int}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<EmployeeDTO>> Delete(int id)
         {
+            if (id < 0)
+                return BadRequest("Invalid Id");
+
             var employee = await _employeeService.GetById(id);
             if (employee == null)
             {
