@@ -2,7 +2,7 @@
 
 namespace CadFunc.Infra.Data.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

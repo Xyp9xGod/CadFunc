@@ -7,11 +7,15 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CadFunc.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 
 namespace CadFunc.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EmployeesController : ControllerBase
     {
         private IEmployeeService _employeeService;
@@ -31,7 +35,7 @@ namespace CadFunc.API.Controllers
             var employees = await _employeeService.GetEmployees();
             if (employees == null)
             {
-                return NotFound("Employees Not Found");
+                return NotFound("Employees Not Found.");
             }
             return Ok(employees);
         }
@@ -44,12 +48,12 @@ namespace CadFunc.API.Controllers
         public async Task<ActionResult<EmployeeDTO>> Get(int id)
         {
             if (id < 0)
-                return BadRequest("Invalid Id");
+                return BadRequest("Invalid Id.");
 
             var employee = await _employeeService.GetById(id);
             if (employee == null)
             {
-                return NotFound("Employee Not Found");
+                return NotFound("Employee Not Found.");
             }
             return Ok(employee);
         }
@@ -61,7 +65,7 @@ namespace CadFunc.API.Controllers
         public async Task<ActionResult> Post([FromBody] EmployeeDTO employeeDto)
         {
             if(employeeDto == null)
-                return BadRequest("Invalid Data");
+                return BadRequest("Invalid Data.");
 
             employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
             await _employeeService.Add(employeeDto);
@@ -77,19 +81,26 @@ namespace CadFunc.API.Controllers
         public async Task<ActionResult> Put(int id, [FromBody] EmployeeDTO employeeDto)
         {
             if (employeeDto == null)
-                return BadRequest();
+                return BadRequest("Invalid Data.");
 
             if (id != employeeDto.Id)
-                return BadRequest();
+                return BadRequest("The Id from parameters should be equal to the Id from JSON body.");
 
             var employee = await _employeeService.GetById(id);
             if (employee == null)
             {
-                return NotFound("Employee Not Found");
+                return NotFound("Employee Not Found.");
             }
 
             employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
-            await _employeeService.Update(employeeDto);
+            try
+            {
+                await _employeeService.Update(employeeDto);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Error trying to update de employee" + ex.Message);
+            }
             return Ok(employeeDto);
         }
 
@@ -101,12 +112,12 @@ namespace CadFunc.API.Controllers
         public async Task<ActionResult<EmployeeDTO>> Delete(int id)
         {
             if (id < 0)
-                return BadRequest("Invalid Id");
+                return BadRequest("Invalid Id.");
 
             var employee = await _employeeService.GetById(id);
             if (employee == null)
             {
-                return NotFound("Employee Not Found");
+                return NotFound("Employee Not Found.");
             }
 
             await _employeeService.Remove(id);
