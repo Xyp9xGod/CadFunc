@@ -21,7 +21,7 @@ Arquivo colletion gerado está presente dentro do projeto da API: EmployeesManag
     1. Adicionar N telefones ao funcionário.
     2. Adicionar Campo do líder
     3. Validações no campo número da chapa (Badge).
-    4. Testes unitários.
+    4. Completar testes unitários.
 
 # Quadro de tarefas
 https://bit.ly/3knzcJr
