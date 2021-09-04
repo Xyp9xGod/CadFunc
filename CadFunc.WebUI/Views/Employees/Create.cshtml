@@ -17,26 +17,31 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            
             <label asp-for="LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
+            
             <label asp-for="Email" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input type="email" asp-for="Email" class="form-control" aria-describedby="emailHelp" />
+                <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            
             <label asp-for="Badge" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Badge" class="form-control" />
                 <span asp-validation-for="Badge" class="text-danger"></span>
             </div>
+            
             <label asp-for="Password" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input type="password" asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <label asp-for="Phone" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Phone" class="form-control" />

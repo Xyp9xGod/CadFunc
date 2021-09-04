@@ -22,6 +22,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ml-auto">
+                        @await Html.PartialAsync("_LoginPartial")
+                    </ul>
                 </div>
             </div>
         </nav>

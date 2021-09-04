@@ -1,6 +1,7 @@
 ﻿using CadFunc.Application.DTOs;
 using CadFunc.Application.Interfaces;
 using CadFunc.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CadFunc.WebUI.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -35,7 +37,7 @@ namespace CadFunc.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
+                //employeeDto.Password = Password.EncryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
                 await _employeeService.Add(employeeDto);
                 return RedirectToAction(nameof(Index));
             }
@@ -48,7 +50,7 @@ namespace CadFunc.WebUI.Controllers
             var employeeDto = await _employeeService.GetById(id);
 
             if (employeeDto == null) return NotFound();
-            employeeDto.Password = Password.DecryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
+            //employeeDto.Password = Password.DecryptString(_configuration["Keys:encryptKey"], employeeDto.Password);
 
             return View(employeeDto);
         }

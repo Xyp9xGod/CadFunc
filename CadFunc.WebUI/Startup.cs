@@ -1,3 +1,4 @@
+using CadFunc.Domain.Account;
 using CadFunc.Infra.Data.Context;
 using CadFunc.Ioc;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,8 @@ namespace CadFunc.WebUI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            ISeedUserRoleInitial seedUserRoleInitial)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -48,6 +50,11 @@ namespace CadFunc.WebUI
 
             app.UseRouting();
 
+            //inicializacao identity
+            seedUserRoleInitial.SeedRoles();
+            seedUserRoleInitial.SeedUsers();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

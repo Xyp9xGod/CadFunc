@@ -19,19 +19,21 @@ namespace CadFunc.Application.DTOs
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "The Email is Required")]
+        [Required(ErrorMessage = "Email is Required")]
+        [EmailAddress(ErrorMessage = "Invalide Format email")]
         [MinLength(3)]
         [MaxLength(100)]
         [DisplayName("E-mail")]
-        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid format Email.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "The Badge is Required")]
         [DisplayName("Badge")]
         public int Badge { get; set; }
 
-        [Required(ErrorMessage = "The Password is Required")]
-        [DisplayName("Password")]
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} ant at max " +
+            "{1} characters long.", MinimumLength = 8)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "The Phone is Required")]
