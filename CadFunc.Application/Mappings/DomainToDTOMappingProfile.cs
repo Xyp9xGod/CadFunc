@@ -9,6 +9,7 @@ namespace CadFunc.Application.Mappings
         public DomainToDTOMappingProfile()
         {
             CreateMap<Employee, EmployeeDTO>().ReverseMap();
+            CreateMap<Phone, PhoneDTO>().ReverseMap();
         }
     }
 }

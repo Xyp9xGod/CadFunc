@@ -13,6 +13,7 @@ namespace CadFunc.Infra.Data.Context
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Phone> Phones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

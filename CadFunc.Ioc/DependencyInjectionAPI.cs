@@ -21,9 +21,11 @@ namespace CadFunc.Ioc
 
             //registro dos repositorios
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IPhoneRepository, PhoneRepository>();
 
             //registro dos servicos
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IPhoneService, PhoneService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

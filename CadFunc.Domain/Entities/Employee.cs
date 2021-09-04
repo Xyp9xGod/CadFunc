@@ -1,4 +1,5 @@
 ﻿using CadFunc.Domain.Validations;
+using System.Collections.Generic;
 
 namespace CadFunc.Domain.Entities
 {
@@ -10,6 +11,7 @@ namespace CadFunc.Domain.Entities
         public int Badge { get; private set; }
         public string Password { get; private set; }
         public string Phone { get; private set; }
+        public IEnumerable<Phone> Phones { get; set; }
 
         public Employee(string name, string lastName, string email, int badge, string password, string phone)
         {
