@@ -25,7 +25,12 @@ namespace CadFunc.Infra.Data.Repositories
 
         public async Task<Employee> GetByIdAsync(int? id)
         {
-            return await _employeeContext.Employees.FindAsync(id);
+            var employee = await _employeeContext.Employees.FindAsync(id);
+            if (employee != null) {
+                _employeeContext.Entry(employee).State = EntityState.Detached;//evita erro por tracking.
+            }
+
+            return employee;
             //return await _productContext.Products.Include(c => c.Category).SingleOrDefaultAsync(p => p.Id == id); //telefone
         }
 

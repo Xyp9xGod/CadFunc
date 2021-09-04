@@ -16,10 +16,10 @@ namespace CadFunc.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class PhoneController : ControllerBase
+    public class PhonesController : ControllerBase
     {
         private IPhoneService _phoneService;
-        public PhoneController(IPhoneService phoneService)
+        public PhonesController(IPhoneService phoneService)
         {
             _phoneService = phoneService;
         }

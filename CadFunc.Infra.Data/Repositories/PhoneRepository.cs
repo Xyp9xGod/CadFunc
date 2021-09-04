@@ -24,7 +24,12 @@ namespace CadFunc.Infra.Data.Repositories
 
         public async Task<Phone> GetByIdAsync(int? id)
         {
-            return await _phoneContext.Phones.FindAsync(id);
+            var phone = await _phoneContext.Phones.FindAsync(id);
+            if (phone != null)
+            {
+                _phoneContext.Entry(phone).State = EntityState.Detached;//evita erro por tracking.
+            }
+            return phone;
         }
 
         public async Task<IEnumerable<Phone>> GetPhonesAsync()

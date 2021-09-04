@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CadFunc.Application.DTOs
 {
@@ -42,6 +43,5 @@ namespace CadFunc.Application.DTOs
         [DisplayName("Phone")]
         [MaxLength(11)]
         public string Phone { get; set; }
-        public IEnumerable<Phone> Phones { get; set; }
     }
 }

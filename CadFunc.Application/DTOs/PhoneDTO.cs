@@ -13,6 +13,7 @@ namespace CadFunc.Application.DTOs
         [MaxLength(11)]
         public string Number { get; set; }
         public int EmployeeId { get; set; }
+
         [JsonIgnore]
         public Employee Employee { get; set; }
     }
