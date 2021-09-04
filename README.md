@@ -3,6 +3,10 @@
 Sistema para cadastro de funcionários de uma empresa fictícia.
 O sistema conta com um front-end para cadastro e uma API com endpoints que possuem o CRUD do sistema
 
+Usuários:
+    1.Comum - usuario@localhost senha @User123
+    2.Admin - admin@localhost senha @Admin123
+
 # Swagger
     1. Todos os métodos recebem e retornam um json. 
     2. Os endpoints mostram seus parâmetros e seus possíveis retornos.
