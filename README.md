@@ -3,7 +3,7 @@
 Sistema para cadastro de funcionários de uma empresa fictícia.
 O sistema conta com um front-end para cadastro e uma API com endpoints que possuem o CRUD do sistema
 
-Usuários:
+# Usuários Login:
     1.Comum - usuario@localhost senha @User123
     2.Admin - admin@localhost senha @Admin123
 
